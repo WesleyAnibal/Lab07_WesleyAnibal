@@ -14,20 +14,37 @@ import excecoes.StringInvalidaException;
 
 public class FactoryJogo {
 	private HashMap<String, Jogabilidade> mapJogabildades;
-	public Jogo criaJogo(String jogoNome, double preco, Set<Jogabilidade> tiposJogabilidades, String estiloJogo)
-			throws StringInvalidaException, PrecoInvalidoException {
 
+	public Jogo criaJogo(String jogoNome, double preco, String tiposJogabilidades, String estiloJogo)
+			throws StringInvalidaException, PrecoInvalidoException {
+		Set<Jogabilidade> jogabilidades = createJogabilidades(tiposJogabilidades);
 		String estilo = estiloJogo.toLowerCase();
 		if (estilo.equals("rpg")) {
-			return new Rpg(jogoNome, preco, tiposJogabilidades);
+			return criaRPG(jogoNome, preco, jogabilidades);
 		} else if (estilo.equals("plataforma")) {
-			return new Plataforma(jogoNome, preco, tiposJogabilidades);
+			return criaPlataforma(jogoNome, preco, jogabilidades);
 		} else if (estilo.equals("luta")) {
-			return new Luta(jogoNome, preco, tiposJogabilidades);
+			return criaLuta(jogoNome, preco, jogabilidades);
 		} else {
 			return null;
 		}
 	}
+
+	private Jogo criaRPG(String nome, double preco, Set<Jogabilidade> tiposJogabilidade)
+			throws StringInvalidaException, PrecoInvalidoException {
+		return new Rpg(nome, preco);
+	}
+
+	private Jogo criaPlataforma(String nome, double preco, Set<Jogabilidade> tiposJogabilidade)
+			throws StringInvalidaException, PrecoInvalidoException {
+		return new Plataforma(nome, preco);
+	}
+
+	private Jogo criaLuta(String nome, double preco, Set<Jogabilidade> tiposJogabilidade)
+			throws StringInvalidaException, PrecoInvalidoException {
+		return new Luta(nome, preco);
+	}
+
 	private void initializeMap() {
 		this.mapJogabildades = new HashMap<String, Jogabilidade>();
 		mapJogabildades.put("ONLINE", Jogabilidade.ONLINE);
@@ -37,8 +54,8 @@ public class FactoryJogo {
 		mapJogabildades.put("MULTIPLAYER", Jogabilidade.MULTIPLAYER);
 
 	}
-	
-	public Set<Jogabilidade> createJogabilidades(String names1) {
+
+	private Set<Jogabilidade> createJogabilidades(String names1) {
 		Set<Jogabilidade> jogabilidades = new HashSet<Jogabilidade>();
 
 		String[] listofNames = names1.split(",");

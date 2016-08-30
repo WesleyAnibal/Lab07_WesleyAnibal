@@ -42,7 +42,7 @@ public class LojaController {
 
 		try {
 			Usuario buscado = this.buscaUsuario(loginUser);
-			buscado.compraJogo(criaJogo.criaJogo(jogoNome, preco, criaJogo.createJogabilidades(estiloJogo), estiloJogo));
+			buscado.compraJogo(criaJogo.criaJogo(jogoNome, preco,jogabilidades , estiloJogo));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -70,7 +70,7 @@ public class LojaController {
 		}
 	}
 
-	public Usuario buscaUsuario(String login) {
+	private Usuario buscaUsuario(String login) {
 		Usuario buscado = null;
 
 		try {
@@ -101,7 +101,7 @@ public class LojaController {
 
 	}
 
-	public double confereCredito(String login) {
+	private double confereCredito(String login) {
 		try {
 			Usuario procurado = this.buscaUsuario(login);
 			return procurado.getCredito();
