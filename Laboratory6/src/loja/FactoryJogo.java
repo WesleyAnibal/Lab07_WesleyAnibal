@@ -14,48 +14,23 @@ import excecoes.StringInvalidaException;
 
 public class FactoryJogo {
 	private HashMap<String, Jogabilidade> mapJogabildades;
-
+	public FactoryJogo(){
+		this.initializeMap();
+	}
 	public Jogo criaJogo(String jogoNome, double preco, String tiposJogabilidades, String estiloJogo)
-			throws StringInvalidaException, PrecoInvalidoException {
-		Set<Jogabilidade> jogabilidades = createJogabilidades(tiposJogabilidades);
+			throws Exception {
 		String estilo = estiloJogo.toLowerCase();
 		if (estilo.equals("rpg")) {
-			return criaRPG(jogoNome, preco, jogabilidades);
+			return criaRPG(jogoNome, preco, tiposJogabilidades);
 		} else if (estilo.equals("plataforma")) {
-			return criaPlataforma(jogoNome, preco, jogabilidades);
+			return criaPlataforma(jogoNome, preco, tiposJogabilidades);
 		} else if (estilo.equals("luta")) {
-			return criaLuta(jogoNome, preco, jogabilidades);
+			return criaLuta(jogoNome, preco, tiposJogabilidades);
 		} else {
-			return null;
+			throw new Exception("pau no cu");
 		}
 	}
-
-	private Jogo criaRPG(String nome, double preco, Set<Jogabilidade> tiposJogabilidade)
-			throws StringInvalidaException, PrecoInvalidoException {
-		return new Rpg(nome, preco);
-	}
-
-	private Jogo criaPlataforma(String nome, double preco, Set<Jogabilidade> tiposJogabilidade)
-			throws StringInvalidaException, PrecoInvalidoException {
-		return new Plataforma(nome, preco);
-	}
-
-	private Jogo criaLuta(String nome, double preco, Set<Jogabilidade> tiposJogabilidade)
-			throws StringInvalidaException, PrecoInvalidoException {
-		return new Luta(nome, preco);
-	}
-
-	private void initializeMap() {
-		this.mapJogabildades = new HashMap<String, Jogabilidade>();
-		mapJogabildades.put("ONLINE", Jogabilidade.ONLINE);
-		mapJogabildades.put("OFFLINE", Jogabilidade.OFFLINE);
-		mapJogabildades.put("COMPETITIVO", Jogabilidade.COMPETITIVO);
-		mapJogabildades.put("COOPERATIVO", Jogabilidade.COOPERATIVO);
-		mapJogabildades.put("MULTIPLAYER", Jogabilidade.MULTIPLAYER);
-
-	}
-
-	private Set<Jogabilidade> createJogabilidades(String names1) {
+	public Set<Jogabilidade> createJogabilidades(String names1) {
 		Set<Jogabilidade> jogabilidades = new HashSet<Jogabilidade>();
 
 		String[] listofNames = names1.split(",");
@@ -71,4 +46,36 @@ public class FactoryJogo {
 		return jogabilidades;
 
 	}
+	private void initializeMap() {
+		this.mapJogabildades = new HashMap<String, Jogabilidade>();
+		mapJogabildades.put("ONLINE", Jogabilidade.ONLINE);
+		mapJogabildades.put("OFFLINE", Jogabilidade.OFFLINE);
+		mapJogabildades.put("COMPETITIVO", Jogabilidade.COMPETITIVO);
+		mapJogabildades.put("COOPERATIVO", Jogabilidade.COOPERATIVO);
+		mapJogabildades.put("MULTIPLAYER", Jogabilidade.MULTIPLAYER);
+
+	}
+	private Jogo criaRPG(String nome, double preco,String tiposJogabilidade)
+			throws Exception {
+		
+		Jogo jogo = new Rpg(nome,preco,createJogabilidades(tiposJogabilidade));
+		return jogo;
+
+	}
+
+	private Jogo criaPlataforma(String nome, double preco, String tiposJogabilidade)
+			throws Exception {
+		Jogo jogo = new Plataforma(nome,preco,createJogabilidades(tiposJogabilidade));
+		return jogo;
+		
+	}
+
+	private Jogo criaLuta(String nome, double preco, String tiposJogabilidade)
+			throws Exception {
+		Jogo jogo = new Luta(nome,preco,createJogabilidades(tiposJogabilidade));
+		return jogo;
+	
+	}
+
+
 }

@@ -15,7 +15,7 @@ public abstract class Usuario {
 	private String login;
 	private Set<Jogo> meusJogos;
 	private double credito;
-	private int xp2;
+	protected int xp2;
 
 	public Usuario(String nome, String login) throws StringInvalidaException {
 
@@ -69,29 +69,34 @@ public abstract class Usuario {
 	public double getCredito() {
 		return this.credito;
 	}
+	
+	public abstract void recompensar(String nomeJogo, int scoreObtido, boolean zerou);
+	
+	public abstract void punir(String nomeJogo, int scoreObtido, boolean zerou);
 
 	public void registradaJogada(String nomeJogo, int score, boolean venceu) throws Exception {
 		Jogo jogo = this.buscaJogo(nomeJogo);
 		if (jogo == null) {
-			throw new Exception();
+			throw new Exception("caralhada toda");
 		}
 		setXp2(getXp2() + jogo.registraJogada(score, venceu));
 	}
 
 	public Jogo buscaJogo(String nomeJogo) {
-		Jogo buscado = null;
-		Iterator itr = meusJogos.iterator();
-		while (itr.hasNext()) {
-			Jogo achado = (Jogo) itr.next();
-			if (achado.getNome().equals(nomeJogo)) {
-				buscado = achado;
+		for(Jogo jogo : meusJogos){
+			if(jogo.getNome().equalsIgnoreCase(nomeJogo)){
+				return jogo;
 			}
 		}
-		return buscado;
+		return null;
 	}
 
 	public Set<Jogo> getMeusJogos() {
 		return meusJogos;
+	}
+	
+	public void addJogo(Jogo jogo){
+		meusJogos.add(jogo);
 	}
 
 	public void setMeusJogos(Set<Jogo> meusJogos) {

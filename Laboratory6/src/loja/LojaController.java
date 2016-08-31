@@ -25,24 +25,20 @@ public class LojaController {
 	private List<Usuario> meusUsuarios;
 	private FactoryDeUsuario criaUsuario;
 	private FactoryJogo criaJogo;
+	private HashMap<String, Jogabilidade> mapJogabildades;
+
+
 	public LojaController() {
 		this.meusUsuarios = new ArrayList<Usuario>();
-	}
-
-	public void adicionaUsuario(String nome, String login) {
-		try {
-			meusUsuarios.add(criaUsuario.criaUsuario(nome, login));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
+		this.criaUsuario = new FactoryDeUsuario();
+		this.criaJogo = new FactoryJogo();
 	}
 
 	public void vendeJogo(String jogoNome, double preco, String jogabilidades, String estiloJogo, String loginUser) {
 
 		try {
 			Usuario buscado = this.buscaUsuario(loginUser);
-			buscado.compraJogo(criaJogo.criaJogo(jogoNome, preco,jogabilidades , estiloJogo));
+			buscado.compraJogo(criaJogo.criaJogo(jogoNome, preco, jogabilidades, estiloJogo));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -53,26 +49,18 @@ public class LojaController {
 			Usuario usr = this.buscaUsuario(login);
 			usr.registradaJogada(nomeJogo, score, venceu);
 		} catch (Exception e) {
-			e.getMessage();
-		}
-
-	}
-
-	public void adicionaCredito(String login, double credito) {
-		try {
-			if (credito < 0) {
-				throw new ValorInvalidoException("Credito nao pode ser negativo");
-			}
-			Usuario user = this.buscaUsuario(login);
-			user.setCredito(user.getCredito() + credito);
-		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+
 	}
 
-	private Usuario buscaUsuario(String login) {
-		Usuario buscado = null;
+	public void adicionaCredito(String login, double credito) throws Exception {
+		Usuario user = this.buscaUsuario(login);
+		user.setCredito(user.getCredito() + credito);
+	}
 
+	public Usuario buscaUsuario(String login) {
+		Usuario buscado = null;
 		try {
 			for (int i = 0; i < meusUsuarios.size(); i++) {
 				if (meusUsuarios.get(i).getLogin().equals(login)) {
@@ -83,6 +71,11 @@ public class LojaController {
 			System.out.println(e.getMessage());
 		}
 		return buscado;
+	}
+
+	public void criaUsuario(String nome, String login, String tipo) throws StringInvalidaException {
+		Usuario usuario = criaUsuario.criaUsuario(nome, login, tipo);
+		meusUsuarios.add(usuario);
 	}
 
 	public void upgrade(String login) throws Exception {
@@ -96,19 +89,13 @@ public class LojaController {
 		novo.setCredito(antigo.getCredito());
 		novo.setXp2(antigo.getXp2());
 		novo.setMeusJogos(antigo.getMeusJogos());
-		int index = meusUsuarios.indexOf(antigo);
-		meusUsuarios.set(index, novo);
-
+		meusUsuarios.remove(antigo);
+		meusUsuarios.add(novo);
 	}
 
-	private double confereCredito(String login) {
-		try {
-			Usuario procurado = this.buscaUsuario(login);
-			return procurado.getCredito();
-		} catch (Exception e) {
-			e.getMessage();
-		}
-		return 0;
+	public double confereCredito(String login) throws Exception {
+		Usuario procurado = buscaUsuario(login);
+		return procurado.getCredito();
 	}
 
 	public String informacaoUsuarios() {
@@ -120,13 +107,22 @@ public class LojaController {
 		return myString;
 	}
 
-	public int getX2p(String login) {
+	public int getX2p(String login) throws Exception {
 		Usuario buscado = this.buscaUsuario(login);
 		return buscado.getXp2();
 	}
+	public void punir(String login, String nome, int score, boolean zerou){
+		Usuario usuario = buscaUsuario(login);
+		usuario.punir(nome, score, zerou);
+	}
+	public void recompensar(String login, String nome, int score, boolean zerou){
+		Usuario usuario = buscaUsuario(login);
+		usuario.recompensar(nome, score, zerou);
+	}
 
 	public static void main(String[] args) {
-		args = new String[] { "loja.Facade", "acceptance_test/us1.txt", "acceptance_test/us2.txt",  "acceptance_test/us3.txt" };
+		args = new String[] { "loja.LojaController", "acceptance_test/us1.txt", "acceptance_test/us2.txt",
+				"acceptance_test/us3.txt" };
 		EasyAccept.main(args);
 
 	}

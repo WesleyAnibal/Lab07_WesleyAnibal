@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import excecoes.StringInvalidaException;
 import excecoes.ValorInvalidoException;
+import jogo.Jogabilidade;
 import jogo.Jogo;
 
 public class Veterano extends Usuario {
@@ -16,20 +17,45 @@ public class Veterano extends Usuario {
 
 	@Override
 	public void compraJogo(Jogo jogo) throws Exception {
-		double custo = jogo.getPreco() * DESCONTO_VETERANO;
-		if (custo > this.getCredito()) {
-			throw new ValorInvalidoException("Credito insuficiente para realizar a compra.");
+		if (getCredito() >= jogo.getPreco()) {
+			xp2 += jogo.getPreco() * 15;
+			double desconto = jogo.getPreco() - (jogo.getPreco() * 0.20);
+			setCredito(getCredito() - desconto);
 		} else {
-			int parteInteira =(int)( jogo.getPreco() - (jogo.getPreco() % 1));
-			int bonusXp =  parteInteira * 15;
-			setXp2(getXp2() + bonusXp);
-			setCredito(getCredito() - custo);
-			this.cadastraJogo(jogo);
+			throw new Exception("Dinheiro insuficiente.");
+		}
 
+	}
+	@Override
+	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) {
+		int totalRecompensa = 0;
+		Jogo jogo = buscaJogo(nomeJogo);
+		if(jogo.getJogabilidade().contains(Jogabilidade.ONLINE)){
+			totalRecompensa += 10;
+		if(jogo.getJogabilidade().contains(Jogabilidade.COOPERATIVO)){
+			totalRecompensa += 20;
+
+		}
+		jogo.registraJogada(scoreObtido, zerou);
+		xp2+=totalRecompensa;
 		}
 	}
 
 	@Override
+	public void punir(String nomeJogo, int scoreObtido, boolean zerou) {
+		int totalRecompensa = 0;
+		Jogo jogo = buscaJogo(nomeJogo);
+		if(jogo.getJogabilidade().contains(Jogabilidade.OFFLINE)){
+			totalRecompensa += 20;
+			if(jogo.getJogabilidade().contains(Jogabilidade.COMPETITIVO)){
+				totalRecompensa += 20;
+		jogo.registraJogada(scoreObtido, zerou);
+		xp2-= totalRecompensa;
+			}
+		}
+		
+	}
+
 	public String toString() {
 		String myString = this.getLogin() + FIM_DE_LINHA;
 		myString += this.getNome() + " - Jogador Veterano" + FIM_DE_LINHA;

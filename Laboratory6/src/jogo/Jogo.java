@@ -1,5 +1,6 @@
 package jogo;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,8 +8,8 @@ import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;
 
 public abstract class Jogo {
+	private HashMap<String, Jogabilidade> mapJogabildades;
 	public static final String FIM_DE_LINHA = System.lineSeparator();
-
 	private String nome;
 	private double preco;
 	private int vezesJogadas;
@@ -20,8 +21,7 @@ public abstract class Jogo {
 			PrecoInvalidoException {
 
 		if (nome == null || nome.trim().isEmpty()) {
-			throw new StringInvalidaException(
-					"Nome nao pode ser nulo ou vazio.");
+			throw new StringInvalidaException("Nome nao pode ser nulo ou vazio.");
 		}
 		if (preco < 0) {
 			throw new PrecoInvalidoException("Preco nao pode ser negativo");
@@ -87,8 +87,8 @@ public abstract class Jogo {
 	public void setVezesJogadas(int novaQuantidade) {
 		this.vezesJogadas = novaQuantidade;
 	}
-	public void addJogabilidade(){
-		
+	public Set<Jogabilidade> getJogabilidade(){
+		return this.jogabilidades;
 	}
 
 	@Override
