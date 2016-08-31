@@ -33,7 +33,7 @@ public class FactoryJogo {
 	public Set<Jogabilidade> createJogabilidades(String names1) {
 		Set<Jogabilidade> jogabilidades = new HashSet<Jogabilidade>();
 
-		String[] listofNames = names1.split(",");
+		String[] listofNames = names1.split(" ");
 
 		for (int i = 0; i < listofNames.length; i++) {
 			String element = listofNames[i].toUpperCase();

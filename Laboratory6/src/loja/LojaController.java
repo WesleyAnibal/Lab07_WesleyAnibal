@@ -59,18 +59,12 @@ public class LojaController {
 		user.setCredito(user.getCredito() + credito);
 	}
 
-	public Usuario buscaUsuario(String login) {
-		Usuario buscado = null;
-		try {
-			for (int i = 0; i < meusUsuarios.size(); i++) {
-				if (meusUsuarios.get(i).getLogin().equals(login)) {
-					buscado = meusUsuarios.get(i);
-				}
+	public Usuario buscaUsuario(String login) throws Exception {
+		for(Usuario usuario : meusUsuarios){
+			if(usuario.getLogin().equalsIgnoreCase(login)){
+				return usuario;
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return buscado;
+		}throw new Exception("");
 	}
 
 	public void criaUsuario(String nome, String login, String tipo) throws StringInvalidaException {
@@ -79,7 +73,7 @@ public class LojaController {
 	}
 
 	public void upgrade(String login) throws Exception {
-		Usuario antigo = this.buscaUsuario(login);
+		Usuario antigo = buscaUsuario(login);
 		if (antigo instanceof Veterano) {
 			throw new UpgradeInvalidoException("Upgrade impossivel de ser realizado, usuario ja eh veterano");
 		} else if (antigo.getXp2() < 1000) {
@@ -109,14 +103,19 @@ public class LojaController {
 
 	public int getX2p(String login) throws Exception {
 		Usuario buscado = this.buscaUsuario(login);
+		if(buscado == null){
+			throw new Exception("");
+		}
 		return buscado.getXp2();
 	}
-	public void punir(String login, String nome, int score, boolean zerou){
+	public void punir(String login, String nome, int score, boolean zerou) throws Exception{
 		Usuario usuario = buscaUsuario(login);
+		registraJogada(login, nome, score, zerou);
 		usuario.punir(nome, score, zerou);
 	}
-	public void recompensar(String login, String nome, int score, boolean zerou){
+	public void recompensar(String login, String nome, int score, boolean zerou) throws Exception{
 		Usuario usuario = buscaUsuario(login);
+		registraJogada(login, nome, score, zerou);
 		usuario.recompensar(nome, score, zerou);
 	}
 

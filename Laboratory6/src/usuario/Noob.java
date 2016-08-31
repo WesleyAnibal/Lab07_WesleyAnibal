@@ -50,12 +50,10 @@ public class Noob extends Usuario {
 		int totalRecompensa = 0;
 		Jogo jogo = buscaJogo(nomeJogo);
 		if(jogo.getJogabilidade().contains(Jogabilidade.OFFLINE)){
-			totalRecompensa += 30;
-			if(jogo.getJogabilidade().contains(Jogabilidade.MULTIPLAYER)){
+			totalRecompensa += 30;}
+		if(jogo.getJogabilidade().contains(Jogabilidade.MULTIPLAYER)){
 				totalRecompensa += 10;
-			}
 		}
-		jogo.registraJogada(scoreObtido, zerou);
 		xp2+=totalRecompensa;
 		
 	}
@@ -70,10 +68,8 @@ public class Noob extends Usuario {
 			totalRecompensa += 50;
 		}if(jogo.getJogabilidade().contains(Jogabilidade.COMPETITIVO)){
 			totalRecompensa += 20;
-		jogo.registraJogada(scoreObtido, zerou);
-		xp2-=totalRecompensa;
-		
 		}
+		xp2-=totalRecompensa;
 		
 	}
 

@@ -20,6 +20,7 @@ public class Veterano extends Usuario {
 		if (getCredito() >= jogo.getPreco()) {
 			xp2 += jogo.getPreco() * 15;
 			double desconto = jogo.getPreco() - (jogo.getPreco() * 0.20);
+			super.addJogo(jogo);
 			setCredito(getCredito() - desconto);
 		} else {
 			throw new Exception("Dinheiro insuficiente.");
@@ -36,7 +37,6 @@ public class Veterano extends Usuario {
 			totalRecompensa += 20;
 
 		}
-		jogo.registraJogada(scoreObtido, zerou);
 		xp2+=totalRecompensa;
 		}
 	}
@@ -47,12 +47,11 @@ public class Veterano extends Usuario {
 		Jogo jogo = buscaJogo(nomeJogo);
 		if(jogo.getJogabilidade().contains(Jogabilidade.OFFLINE)){
 			totalRecompensa += 20;
-			if(jogo.getJogabilidade().contains(Jogabilidade.COMPETITIVO)){
-				totalRecompensa += 20;
-		jogo.registraJogada(scoreObtido, zerou);
-		xp2-= totalRecompensa;
-			}
 		}
+		if(jogo.getJogabilidade().contains(Jogabilidade.COMPETITIVO)){
+				totalRecompensa += 20;
+		}
+		xp2-= totalRecompensa;
 		
 	}
 
