@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import excecoes.StringInvalidaException;
+import excecoes.UpgradeInvalidoException;
 import jogo.Jogo;
 
 public class Usuario {
@@ -15,6 +16,7 @@ public class Usuario {
 	private String login;
 	private Set<Jogo> meusJogos;
 	private double credito;
+	private int xp2;
 
 	public Usuario(String nome, String login) throws StringInvalidaException {
 
@@ -27,18 +29,44 @@ public class Usuario {
 
 		this.nome = nome;
 		this.login = login;
-		meusJogos = new HashSet<Jogo>();
+		this.meusJogos = new HashSet<Jogo>();
 		this.credito = 0;
-		this.statusDoUsuario = new Noob(nome, login);
+		this.statusDoUsuario = new Noob();
+		this.xp2 = 0;
+	}
+	
+	
+
+	public TipoDeUsuarioIF getStatusDoUsuario() {
+		return statusDoUsuario;
 	}
 
-	public void compraJogo(Jogo jogo) throws Exception{
+
+
+	public void setStatusDoUsuario(TipoDeUsuarioIF statusDoUsuario) {
+		this.statusDoUsuario = statusDoUsuario;
+	}
+
+
+
+	public void compraJogo(Jogo jogo) throws Exception {
 		this.credito -= statusDoUsuario.compraJogo(jogo);
 		meusJogos.add(jogo);
 	}
 
+	public void upgrade() throws UpgradeInvalidoException {
+	if (xp2 < 1000) {
+		throw new UpgradeInvalidoException("Impossivel realizar upgrade, quantidade de x2p insuficiente!");
+	}
+		this.statusDoUsuario = new Veterano();
+	}
+
+	public void downgrade() {
+		this.statusDoUsuario = new Noob();
+	}
+
 	public void setXp2(int novoValor) {
-		statusDoUsuario.
+		this.xp2 = novoValor;
 	}
 
 	public int getXp2() {
@@ -72,26 +100,22 @@ public class Usuario {
 	public double getCredito() {
 		return this.credito;
 	}
-	
-	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou){
-		
-	}
-	
-	public void punir(String nomeJogo, int scoreObtido, boolean zerou){
-		
+
+	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) {
+		Jogo jogo = buscaJogo(nomeJogo);
+		jogo.registraJogada(scoreObtido, zerou);
+		xp2 += statusDoUsuario.recompensar(jogo);
 	}
 
-	public void registradaJogada(String nomeJogo, int score, boolean venceu) throws Exception {
-		Jogo jogo = this.buscaJogo(nomeJogo);
-		if (jogo == null) {
-			throw new Exception("teste");
-		}
-		setXp2(getXp2() + jogo.registraJogada(score, venceu));
+	public void punir(String nomeJogo, int scoreObtido, boolean zerou) {
+		Jogo jogo = buscaJogo(nomeJogo);
+		jogo.registraJogada(scoreObtido, zerou);
+		xp2 -= statusDoUsuario.punir(jogo);
 	}
 
 	public Jogo buscaJogo(String nomeJogo) {
-		for(Jogo jogo : meusJogos){
-			if(jogo.getNome().equalsIgnoreCase(nomeJogo)){
+		for (Jogo jogo : meusJogos) {
+			if (jogo.getNome().equalsIgnoreCase(nomeJogo)) {
 				return jogo;
 			}
 		}
@@ -101,8 +125,8 @@ public class Usuario {
 	public Set<Jogo> getMeusJogos() {
 		return meusJogos;
 	}
-	
-	public void addJogo(Jogo jogo){
+
+	public void addJogo(Jogo jogo) {
 		meusJogos.add(jogo);
 	}
 

@@ -12,25 +12,15 @@ import jogo.Jogo;
 
 public class Noob implements TipoDeUsuarioIF {
 	public static final double DESCONTO_NOOB = 0.9;
-	private int xp2;
-
-	public Noob(String nome, String login) throws StringInvalidaException {
-		xp2 = 0;
-	}
 
 	@Override
 	public double compraJogo(Jogo jogo) throws Exception {
-		xp2 += jogo.getPreco() * 10;
+		
 		double desconto = jogo.getPreco() - (jogo.getPreco() * 0.10);
 		return desconto;
 	}
-
-	public void setXp2(int num) {
-		this.xp2 = num;
-	}
-
-	public int getXp2() {
-		return this.xp2;
+	public int getX2p(Jogo jogo){
+		return (int) (jogo.getPreco() * 10);
 	}
 
 	/*
@@ -45,7 +35,7 @@ public class Noob implements TipoDeUsuarioIF {
 	 * "--------------------------------------------"; return myString; }
 	 */
 
-	public void recompensar(Jogo jogo, int scoreObtido, boolean zerou) {
+	public int recompensar(Jogo jogo) {
 		int totalRecompensa = 0;
 		if (jogo.getJogabilidade().contains(Jogabilidade.OFFLINE)) {
 			totalRecompensa += 30;
@@ -53,12 +43,12 @@ public class Noob implements TipoDeUsuarioIF {
 		if (jogo.getJogabilidade().contains(Jogabilidade.MULTIPLAYER)) {
 			totalRecompensa += 10;
 		}
-		xp2 += totalRecompensa;
+		return totalRecompensa;
 
 	}
 
 	@Override
-	public void punir(Jogo jogo, int scoreObtido, boolean zerou) {
+	public int punir(Jogo jogo) {
 		int totalRecompensa = 0;
 		if (jogo.getJogabilidade().contains(Jogabilidade.ONLINE)) {
 			totalRecompensa += 10;
@@ -69,8 +59,8 @@ public class Noob implements TipoDeUsuarioIF {
 		if (jogo.getJogabilidade().contains(Jogabilidade.COMPETITIVO)) {
 			totalRecompensa += 20;
 		}
-		xp2 -= totalRecompensa;
-
+		return totalRecompensa;
 	}
+	
 
 }

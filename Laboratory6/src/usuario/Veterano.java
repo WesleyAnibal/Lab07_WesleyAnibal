@@ -12,40 +12,33 @@ import jogo.Jogo;
 
 public class Veterano implements TipoDeUsuarioIF{
 	public static final double DESCONTO_VETERANO = 0.8;
-	private int xp2;
 	
-	public Veterano(String nome, String login) throws StringInvalidaException {
-		this.xp2 = 1000;
-	}
 
 	@Override
 	public double compraJogo(Jogo jogo) throws Exception {
-		xp2 += jogo.getPreco() * 15;
 		double desconto = jogo.getPreco() - (jogo.getPreco() * 0.20);
 		return desconto;
 
 	}
-	public void setXp2(int xp2){
-		this.xp2 = xp2;
+	public int getX2p(Jogo jogo){
+		return (int) (jogo.getPreco() * 15);
 	}
-	public int getXp2(){
-		return this.xp2;
-	}
+
 	@Override
-	public void recompensar(Jogo jogo, int scoreObtido, boolean zerou) {
+	public int recompensar(Jogo jogo) {
 		int totalRecompensa = 0;
 		if(jogo.getJogabilidade().contains(Jogabilidade.ONLINE)){
 			totalRecompensa += 10;
+		}
 		if(jogo.getJogabilidade().contains(Jogabilidade.COOPERATIVO)){
 			totalRecompensa += 20;
 
 		}
-		xp2+=totalRecompensa;
-		}
+		return totalRecompensa;
 	}
 
 	@Override
-	public void punir(Jogo jogo, int scoreObtido, boolean zerou) {
+	public int punir(Jogo jogo) {
 		int totalRecompensa = 0;
 		if(jogo.getJogabilidade().contains(Jogabilidade.OFFLINE)){
 			totalRecompensa += 20;
@@ -53,7 +46,7 @@ public class Veterano implements TipoDeUsuarioIF{
 		if(jogo.getJogabilidade().contains(Jogabilidade.COMPETITIVO)){
 				totalRecompensa += 20;
 		}
-		xp2-= totalRecompensa;
+		return totalRecompensa;
 		
 	}
 
