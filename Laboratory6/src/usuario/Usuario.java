@@ -7,10 +7,10 @@ import java.util.Set;
 import excecoes.StringInvalidaException;
 import jogo.Jogo;
 
-public abstract class Usuario {
+public class Usuario {
 
 	public static final String FIM_DE_LINHA = System.lineSeparator();
-
+	private TipoDeUsuarioIF statusDoUsuario;
 	private String nome;
 	private String login;
 	private Set<Jogo> meusJogos;
@@ -30,9 +30,13 @@ public abstract class Usuario {
 		this.login = login;
 		meusJogos = new HashSet<Jogo>();
 		this.credito = 0;
+		this.statusDoUsuario = new Noob(nome, login);
 	}
 
-	public abstract void compraJogo(Jogo jogo) throws Exception;
+	public void compraJogo(Jogo jogo) throws Exception{
+		this.credito -= statusDoUsuario.compraJogo(jogo);
+		meusJogos.add(jogo);
+	}
 
 	public void setXp2(int novoValor) {
 		this.xp2 = novoValor;
@@ -70,14 +74,18 @@ public abstract class Usuario {
 		return this.credito;
 	}
 	
-	public abstract void recompensar(String nomeJogo, int scoreObtido, boolean zerou);
+	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou){
+		
+	}
 	
-	public abstract void punir(String nomeJogo, int scoreObtido, boolean zerou);
+	public void punir(String nomeJogo, int scoreObtido, boolean zerou){
+		
+	}
 
 	public void registradaJogada(String nomeJogo, int score, boolean venceu) throws Exception {
 		Jogo jogo = this.buscaJogo(nomeJogo);
 		if (jogo == null) {
-			throw new Exception("caralhada toda");
+			throw new Exception("teste");
 		}
 		setXp2(getXp2() + jogo.registraJogada(score, venceu));
 	}

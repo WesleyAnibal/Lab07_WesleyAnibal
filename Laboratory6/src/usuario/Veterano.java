@@ -1,36 +1,39 @@
 package usuario;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import excecoes.StringInvalidaException;
 import excecoes.ValorInvalidoException;
 import jogo.Jogabilidade;
 import jogo.Jogo;
 
-public class Veterano extends Usuario {
+public class Veterano implements TipoDeUsuarioIF{
 	public static final double DESCONTO_VETERANO = 0.8;
-
+	private int xp2;
+	
 	public Veterano(String nome, String login) throws StringInvalidaException {
-		super(nome, login);
-		setXp2(1000);
+		this.xp2 = 1000;
 	}
 
 	@Override
-	public void compraJogo(Jogo jogo) throws Exception {
-		if (getCredito() >= jogo.getPreco()) {
-			xp2 += jogo.getPreco() * 15;
-			double desconto = jogo.getPreco() - (jogo.getPreco() * 0.20);
-			super.addJogo(jogo);
-			setCredito(getCredito() - desconto);
-		} else {
-			throw new Exception("Dinheiro insuficiente.");
-		}
+	public double compraJogo(Jogo jogo) throws Exception {
+		xp2 += jogo.getPreco() * 15;
+		double desconto = jogo.getPreco() - (jogo.getPreco() * 0.20);
+		return desconto;
 
 	}
+	public void setXp2(int xp2){
+		this.xp2 = xp2;
+	}
+	public int getXp2(){
+		return this.xp2;
+	}
 	@Override
-	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) {
+	public void recompensar(Jogo jogo, int scoreObtido, boolean zerou) {
 		int totalRecompensa = 0;
-		Jogo jogo = buscaJogo(nomeJogo);
 		if(jogo.getJogabilidade().contains(Jogabilidade.ONLINE)){
 			totalRecompensa += 10;
 		if(jogo.getJogabilidade().contains(Jogabilidade.COOPERATIVO)){
@@ -42,9 +45,8 @@ public class Veterano extends Usuario {
 	}
 
 	@Override
-	public void punir(String nomeJogo, int scoreObtido, boolean zerou) {
+	public void punir(Jogo jogo, int scoreObtido, boolean zerou) {
 		int totalRecompensa = 0;
-		Jogo jogo = buscaJogo(nomeJogo);
 		if(jogo.getJogabilidade().contains(Jogabilidade.OFFLINE)){
 			totalRecompensa += 20;
 		}
@@ -55,7 +57,7 @@ public class Veterano extends Usuario {
 		
 	}
 
-	public String toString() {
+	/*public String toString() {
 		String myString = this.getLogin() + FIM_DE_LINHA;
 		myString += this.getNome() + " - Jogador Veterano" + FIM_DE_LINHA;
 		myString += "Lista de Jogos:" + FIM_DE_LINHA;
@@ -69,6 +71,6 @@ public class Veterano extends Usuario {
 		myString += "Total de pre�o dos jogos: R$ " + this.calculaPrecoTotal() + FIM_DE_LINHA;
 		myString += "--------------------------------------------";
 		return myString;
-	}
+	}*/
 
 }
