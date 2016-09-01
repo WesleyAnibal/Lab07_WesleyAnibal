@@ -15,7 +15,6 @@ public class Usuario {
 	private String login;
 	private Set<Jogo> meusJogos;
 	private double credito;
-	protected int xp2;
 
 	public Usuario(String nome, String login) throws StringInvalidaException {
 
@@ -39,7 +38,7 @@ public class Usuario {
 	}
 
 	public void setXp2(int novoValor) {
-		this.xp2 = novoValor;
+		statusDoUsuario.
 	}
 
 	public int getXp2() {
