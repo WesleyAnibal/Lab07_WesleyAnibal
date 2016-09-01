@@ -23,14 +23,12 @@ import usuario.Veterano;
 
 public class LojaController {
 	private List<Usuario> meusUsuarios;
-	private FactoryDeUsuario criaUsuario;
 	private FactoryJogo criaJogo;
 	private HashMap<String, Jogabilidade> mapJogabildades;
 
 
 	public LojaController() {
 		this.meusUsuarios = new ArrayList<Usuario>();
-		this.criaUsuario = new FactoryDeUsuario();
 		this.criaJogo = new FactoryJogo();
 	}
 
@@ -42,16 +40,6 @@ public class LojaController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	public void registraJogada(String login, String nomeJogo, int score, boolean venceu) {
-		try {
-			Usuario usr = this.buscaUsuario(login);
-			usr.registradaJogada(nomeJogo, score, venceu);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
 	}
 
 	public void adicionaCredito(String login, double credito) throws Exception {
@@ -68,7 +56,7 @@ public class LojaController {
 	}
 
 	public void criaUsuario(String nome, String login, String tipo) throws StringInvalidaException {
-		Usuario usuario = criaUsuario.criaUsuario(nome, login, tipo);
+		Usuario usuario = new Usuario(nome, login);
 		meusUsuarios.add(usuario);
 	}
 
@@ -103,12 +91,10 @@ public class LojaController {
 	}
 	public void punir(String login, String nome, int score, boolean zerou) throws Exception{
 		Usuario usuario = buscaUsuario(login);
-		registraJogada(login, nome, score, zerou);
 		usuario.punir(nome, score, zerou);
 	}
 	public void recompensar(String login, String nome, int score, boolean zerou) throws Exception{
 		Usuario usuario = buscaUsuario(login);
-		registraJogada(login, nome, score, zerou);
 		usuario.recompensar(nome, score, zerou);
 	}
 

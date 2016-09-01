@@ -17,9 +17,6 @@ public class LojaFacade {
 		controller.vendeJogo(jogoNome, preco, jogabilidades, estiloJogo, loginUser);
 	}
 
-	public void registraJogada(String login, String nomeJogo, int score, boolean venceu) {
-		controller.registraJogada(login, nomeJogo, score, venceu);
-	}
 
 	public void adicionaCredito(String login, double credito) throws Exception {
 		controller.adicionaCredito(login, credito);

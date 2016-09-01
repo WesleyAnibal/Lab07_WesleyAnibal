@@ -6,5 +6,5 @@ public interface TipoDeUsuarioIF {
 	double compraJogo(Jogo jogo)throws Exception;
 	int punir(Jogo nomeJogo);
 	int recompensar(Jogo nomeJogo);
-	
+	int getX2p(Jogo jogo);
 }

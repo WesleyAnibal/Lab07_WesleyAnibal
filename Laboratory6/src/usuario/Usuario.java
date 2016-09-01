@@ -50,6 +50,7 @@ public class Usuario {
 
 
 	public void compraJogo(Jogo jogo) throws Exception {
+		xp2 += statusDoUsuario.getX2p(jogo);
 		this.credito -= statusDoUsuario.compraJogo(jogo);
 		meusJogos.add(jogo);
 	}
@@ -103,13 +104,13 @@ public class Usuario {
 
 	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) {
 		Jogo jogo = buscaJogo(nomeJogo);
-		jogo.registraJogada(scoreObtido, zerou);
 		xp2 += statusDoUsuario.recompensar(jogo);
+		xp2+= jogo.registraJogada(scoreObtido, zerou);
 	}
 
 	public void punir(String nomeJogo, int scoreObtido, boolean zerou) {
 		Jogo jogo = buscaJogo(nomeJogo);
-		jogo.registraJogada(scoreObtido, zerou);
+		xp2+= jogo.registraJogada(scoreObtido, zerou);
 		xp2 -= statusDoUsuario.punir(jogo);
 	}
 

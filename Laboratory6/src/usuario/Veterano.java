@@ -32,7 +32,6 @@ public class Veterano implements TipoDeUsuarioIF{
 		}
 		if(jogo.getJogabilidade().contains(Jogabilidade.COOPERATIVO)){
 			totalRecompensa += 20;
-
 		}
 		return totalRecompensa;
 	}
