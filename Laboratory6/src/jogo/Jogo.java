@@ -6,6 +6,7 @@ import java.util.Set;
 
 import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;
+import excecoes.ValorInvalidoException;
 
 public abstract class Jogo {
 	private HashMap<String, Jogabilidade> mapJogabildades;
@@ -54,7 +55,7 @@ public abstract class Jogo {
 		this.jogabilidades = jogabilidades;
 	}
 
-	public abstract int registraJogada(int score, boolean venceu);
+	public abstract int registraJogada(int score, boolean venceu)throws ValorInvalidoException;
 
 	public double getPreco() {
 		return this.preco;
@@ -68,7 +69,10 @@ public abstract class Jogo {
 		return this.maiorScore;
 	}
 
-	public void setMaiorScore(int novoScore) {
+	public void setMaiorScore(int novoScore) throws ValorInvalidoException {
+		if(novoScore < 0 ){
+			throw new ValorInvalidoException("Novo score não pode ser menor que zero.");
+		}
 		this.maiorScore = novoScore;
 	}
 
@@ -76,7 +80,10 @@ public abstract class Jogo {
 		return this.vezesConcluidas;
 	}
 
-	public void setVezesConcluidas(int novaQuantidade) {
+	public void setVezesConcluidas(int novaQuantidade) throws ValorInvalidoException {
+		if(novaQuantidade< 0){
+			throw new ValorInvalidoException("Quantidade de conclusões não pode ser menor que zero.");
+		}
 		this.vezesConcluidas = novaQuantidade;
 	}
 
@@ -84,7 +91,10 @@ public abstract class Jogo {
 		return this.vezesJogadas;
 	}
 
-	public void setVezesJogadas(int novaQuantidade) {
+	public void setVezesJogadas(int novaQuantidade) throws ValorInvalidoException {
+		if(novaQuantidade<0){
+			throw new ValorInvalidoException("Quantidade de jogadas não pode ser menor que zero.");
+		}
 		this.vezesJogadas = novaQuantidade;
 	}
 	public Set<Jogabilidade> getJogabilidade(){

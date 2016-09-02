@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 import easyaccept.EasyAccept;
+import excecoes.BuscaInvalidaException;
 import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;
-import excecoes.UpgradeInvalidoException;
+import excecoes.TrocaInvalidoException;
 import excecoes.ValorInvalidoException;
 import jogo.Jogabilidade;
 import jogo.Jogo;
@@ -32,40 +33,47 @@ public class LojaController {
 		this.criaJogo = new FactoryJogo();
 	}
 
-	public void vendeJogo(String jogoNome, double preco, String jogabilidades, String estiloJogo, String loginUser) {
-
-		try {
+	public void vendeJogo(String jogoNome, double preco, String jogabilidades, String estiloJogo, String loginUser) throws StringInvalidaException,PrecoInvalidoException,ValorInvalidoException, BuscaInvalidaException {
 			Usuario buscado = this.buscaUsuario(loginUser);
 			buscado.compraJogo(criaJogo.criaJogo(jogoNome, preco, jogabilidades, estiloJogo));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
 	}
 
-	public void adicionaCredito(String login, double credito) throws Exception {
+	public void adicionaCredito(String login, double credito) throws BuscaInvalidaException, ValorInvalidoException {
 		Usuario user = this.buscaUsuario(login);
 		user.setCredito(user.getCredito() + credito);
 	}
 
-	public Usuario buscaUsuario(String login) throws Exception {
+	public Usuario buscaUsuario(String login) throws BuscaInvalidaException{
+		Usuario procurado = null;
 		for(Usuario usuario : meusUsuarios){
 			if(usuario.getLogin().equalsIgnoreCase(login)){
-				return usuario;
+				procurado = usuario;
 			}
-		}throw new Exception("");
+		}if(procurado == null){
+			throw new BuscaInvalidaException("Usuario não encontrado.");
+		}else{
+			return procurado;
+		}
 	}
 
-	public void criaUsuario(String nome, String login, String tipo) throws StringInvalidaException {
+	public void criaUsuario(String nome, String login) throws StringInvalidaException {
 		Usuario usuario = new Usuario(nome, login);
 		meusUsuarios.add(usuario);
 	}
 
-	public void upgrade(String login) throws Exception {
+	public void upgrade(String login) throws BuscaInvalidaException, TrocaInvalidoException  {
 		Usuario antigo = buscaUsuario(login);
 		if (antigo.getStatusDoUsuario() instanceof Veterano) {
-			throw new UpgradeInvalidoException("Upgrade impossivel de ser realizado, usuario ja eh veterano");
+			throw new TrocaInvalidoException("Upgrade impossivel de ser realizado, usuario ja eh veterano");
 		}
 		antigo.upgrade();
+	}
+	public void downgrade(String login) throws BuscaInvalidaException, TrocaInvalidoException{
+		Usuario antigo = buscaUsuario(login);
+		if (antigo.getStatusDoUsuario() instanceof Noob) {
+			throw new TrocaInvalidoException("downgrade impossivel de ser realizado, usuario ja eh Noob");
+		}
+		antigo.downgrade();
 	}
 
 	public double confereCredito(String login) throws Exception {
@@ -75,34 +83,29 @@ public class LojaController {
 
 	public String informacaoUsuarios() {
 		final String FIM_DE_LINHA = System.lineSeparator();
+		int totalPreco = 0;
 		String myString = "=== Central P2-CG ===" + FIM_DE_LINHA + FIM_DE_LINHA;
 		for (int i = 0; i < meusUsuarios.size(); i++) {
 			myString += meusUsuarios.get(i).toString() + FIM_DE_LINHA;
+			totalPreco += meusUsuarios.get(i).calculaPrecoTotal();
 		}
+		myString += String
+				.format("\nTotal de preço dos jogos: R$ %.2f\n\n--------------------------------------------",
+totalPreco);
 		return myString;
 	}
 
-	public int getX2p(String login) throws Exception {
+	public int getX2p(String login) throws BuscaInvalidaException  {
 		Usuario buscado = this.buscaUsuario(login);
-		if(buscado == null){
-			throw new Exception("");
-		}
 		return buscado.getXp2();
 	}
-	public void punir(String login, String nome, int score, boolean zerou) throws Exception{
+	public void punir(String login, String nome, int score, boolean zerou) throws BuscaInvalidaException, ValorInvalidoException {
 		Usuario usuario = buscaUsuario(login);
 		usuario.punir(nome, score, zerou);
 	}
-	public void recompensar(String login, String nome, int score, boolean zerou) throws Exception{
+	public void recompensar(String login, String nome, int score, boolean zerou) throws ValorInvalidoException, BuscaInvalidaException {
 		Usuario usuario = buscaUsuario(login);
 		usuario.recompensar(nome, score, zerou);
-	}
-
-	public static void main(String[] args) {
-		args = new String[] { "loja.LojaController", "acceptance_test/us1.txt", "acceptance_test/us2.txt",
-				"acceptance_test/us3.txt" };
-		EasyAccept.main(args);
-
 	}
 
 }

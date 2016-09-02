@@ -4,6 +4,7 @@ import java.util.Set;
 
 import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;
+import excecoes.ValorInvalidoException;
 
 public class Rpg extends Jogo{
 	public final static int TAXA_XP2 = 10;
@@ -17,7 +18,7 @@ public class Rpg extends Jogo{
 	}
 
 	@Override
-	public int registraJogada(int score, boolean venceu) {
+	public int registraJogada(int score, boolean venceu) throws ValorInvalidoException {
 		setVezesJogadas(getVezesJogadas()+ 1);
 		if(score > this.getMaiorScore()){
 			setMaiorScore(score);

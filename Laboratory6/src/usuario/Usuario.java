@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import excecoes.BuscaInvalidaException;
 import excecoes.StringInvalidaException;
-import excecoes.UpgradeInvalidoException;
+import excecoes.TrocaInvalidoException;
+import excecoes.ValorInvalidoException;
 import jogo.Jogo;
 
 public class Usuario {
@@ -49,15 +51,18 @@ public class Usuario {
 
 
 
-	public void compraJogo(Jogo jogo) throws Exception {
+	public void compraJogo(Jogo jogo) throws ValorInvalidoException {
+		if(this.credito < jogo.getPreco()){
+			throw new ValorInvalidoException("Dinheiro insuficiente.");
+		}
 		xp2 += statusDoUsuario.getX2p(jogo);
 		this.credito -= statusDoUsuario.compraJogo(jogo);
 		meusJogos.add(jogo);
 	}
 
-	public void upgrade() throws UpgradeInvalidoException {
+	public void upgrade() throws TrocaInvalidoException {
 	if (xp2 < 1000) {
-		throw new UpgradeInvalidoException("Impossivel realizar upgrade, quantidade de x2p insuficiente!");
+		throw new TrocaInvalidoException("Impossivel realizar upgrade, quantidade de x2p insuficiente!");
 	}
 		this.statusDoUsuario = new Veterano();
 	}
@@ -82,7 +87,10 @@ public class Usuario {
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(String nome) throws StringInvalidaException {
+		if(nome == null || nome.trim().isEmpty()){
+			throw new StringInvalidaException("Novo nome não pode ser null ou vazia.");
+		}
 		this.nome = nome;
 	}
 
@@ -90,11 +98,17 @@ public class Usuario {
 		return login;
 	}
 
-	public void setLogin(String login) {
+	public void setLogin(String login) throws StringInvalidaException {
+		if(login == null || login.trim().isEmpty()){
+			throw new StringInvalidaException("Novo login não pode ser null ou vazio.");
+		}
 		this.login = login;
 	}
 
-	public void setCredito(double novoValor) {
+	public void setCredito(double novoValor) throws ValorInvalidoException {
+		if(novoValor < 0){
+			throw new ValorInvalidoException("Novo Valor não pode ser menor que zero.");
+		}
 		this.credito = novoValor;
 	}
 
@@ -102,33 +116,29 @@ public class Usuario {
 		return this.credito;
 	}
 
-	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) {
+	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) throws BuscaInvalidaException, ValorInvalidoException {
 		Jogo jogo = buscaJogo(nomeJogo);
 		xp2 += statusDoUsuario.recompensar(jogo);
 		xp2+= jogo.registraJogada(scoreObtido, zerou);
 	}
 
-	public void punir(String nomeJogo, int scoreObtido, boolean zerou) {
+	public void punir(String nomeJogo, int scoreObtido, boolean zerou) throws BuscaInvalidaException, ValorInvalidoException {
 		Jogo jogo = buscaJogo(nomeJogo);
 		xp2+= jogo.registraJogada(scoreObtido, zerou);
 		xp2 -= statusDoUsuario.punir(jogo);
 	}
 
-	public Jogo buscaJogo(String nomeJogo) {
+	public Jogo buscaJogo(String nomeJogo) throws BuscaInvalidaException {
 		for (Jogo jogo : meusJogos) {
 			if (jogo.getNome().equalsIgnoreCase(nomeJogo)) {
 				return jogo;
 			}
 		}
-		return null;
+		throw new BuscaInvalidaException("Jogo não encontrado");
 	}
 
 	public Set<Jogo> getMeusJogos() {
 		return meusJogos;
-	}
-
-	public void addJogo(Jogo jogo) {
-		meusJogos.add(jogo);
 	}
 
 	public void setMeusJogos(Set<Jogo> meusJogos) {
@@ -152,6 +162,16 @@ public class Usuario {
 			return this.getNome().equals(temp.getNome()) && this.getLogin().equals(temp.getLogin());
 		} else {
 			return false;
+			
 		}
+	}
+	public String toString(){
+		String myString = statusDoUsuario.toString()+getLogin()+"\n";
+		myString+= getNome()+ " - "+ xp2+" x2p";
+		myString += "Lista de Jogos:\n";
+		for(Jogo jogo : meusJogos){
+			myString+= "+ "+ jogo.toString()+"\n";
+		}
+		return myString;
 	}
 }

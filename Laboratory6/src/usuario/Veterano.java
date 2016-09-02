@@ -11,17 +11,17 @@ import jogo.Jogabilidade;
 import jogo.Jogo;
 
 public class Veterano implements TipoDeUsuarioIF{
-	public static final double DESCONTO_VETERANO = 0.8;
+	public static final double DESCONTO_VETERANO = 0.20;
+	public static final int VALOR_XP2 = 15;
 	
 
-	@Override
-	public double compraJogo(Jogo jogo) throws Exception {
-		double desconto = jogo.getPreco() - (jogo.getPreco() * 0.20);
+	public double compraJogo(Jogo jogo) throws ValorInvalidoException {
+		double desconto = jogo.getPreco() - (jogo.getPreco() * DESCONTO_VETERANO);
 		return desconto;
 
 	}
 	public int getX2p(Jogo jogo){
-		return (int) (jogo.getPreco() * 15);
+		return (int) (jogo.getPreco() * VALOR_XP2);
 	}
 
 	@Override
@@ -49,20 +49,9 @@ public class Veterano implements TipoDeUsuarioIF{
 		
 	}
 
-	/*public String toString() {
-		String myString = this.getLogin() + FIM_DE_LINHA;
-		myString += this.getNome() + " - Jogador Veterano" + FIM_DE_LINHA;
-		myString += "Lista de Jogos:" + FIM_DE_LINHA;
-
-		Iterator itr = getMeusJogos().iterator();
-		while (itr.hasNext()) {
-			Jogo j = (Jogo) itr.next();
-			myString += j.toString();
-		}
-		myString += FIM_DE_LINHA;
-		myString += "Total de pre�o dos jogos: R$ " + this.calculaPrecoTotal() + FIM_DE_LINHA;
-		myString += "--------------------------------------------";
+	public String toString() {
+		String myString = "Jogador Veterano: ";
 		return myString;
-	}*/
+	}
 
 }

@@ -1,13 +1,13 @@
 package excecoes;
 
-public class UpgradeInvalidoException extends Exception {
+public class TrocaInvalidoException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public UpgradeInvalidoException(String msg) {
+	public TrocaInvalidoException(String msg) {
 		super(msg); 
 	}
 

@@ -11,14 +11,15 @@ import jogo.Plataforma;
 import jogo.Rpg;
 import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;
+import excecoes.ValorInvalidoException;
 
 public class FactoryJogo {
 	private HashMap<String, Jogabilidade> mapJogabildades;
 	public FactoryJogo(){
 		this.initializeMap();
 	}
-	public Jogo criaJogo(String jogoNome, double preco, String tiposJogabilidades, String estiloJogo)
-			throws Exception {
+	public Jogo criaJogo(String jogoNome, double preco, String tiposJogabilidades, String estiloJogo) throws StringInvalidaException, PrecoInvalidoException
+			 {
 		String estilo = estiloJogo.toLowerCase();
 		if (estilo.equals("rpg")) {
 			return criaRPG(jogoNome, preco, tiposJogabilidades);
@@ -27,7 +28,7 @@ public class FactoryJogo {
 		} else if (estilo.equals("luta")) {
 			return criaLuta(jogoNome, preco, tiposJogabilidades);
 		} else {
-			throw new Exception("pau no cu");
+			throw new StringInvalidaException("Estilo de jogo inexistente.");
 		}
 	}
 	public Set<Jogabilidade> createJogabilidades(String names1) {
@@ -55,23 +56,23 @@ public class FactoryJogo {
 		mapJogabildades.put("MULTIPLAYER", Jogabilidade.MULTIPLAYER);
 
 	}
-	private Jogo criaRPG(String nome, double preco,String tiposJogabilidade)
-			throws Exception {
+	private Jogo criaRPG(String nome, double preco,String tiposJogabilidade) throws StringInvalidaException, PrecoInvalidoException
+			 {
 		
 		Jogo jogo = new Rpg(nome,preco,createJogabilidades(tiposJogabilidade));
 		return jogo;
 
 	}
 
-	private Jogo criaPlataforma(String nome, double preco, String tiposJogabilidade)
-			throws Exception {
+	private Jogo criaPlataforma(String nome, double preco, String tiposJogabilidade) throws StringInvalidaException, PrecoInvalidoException
+			 {
 		Jogo jogo = new Plataforma(nome,preco,createJogabilidades(tiposJogabilidade));
 		return jogo;
 		
 	}
 
-	private Jogo criaLuta(String nome, double preco, String tiposJogabilidade)
-			throws Exception {
+	private Jogo criaLuta(String nome, double preco, String tiposJogabilidade) throws StringInvalidaException, PrecoInvalidoException
+			 {
 		Jogo jogo = new Luta(nome,preco,createJogabilidades(tiposJogabilidade));
 		return jogo;
 	
