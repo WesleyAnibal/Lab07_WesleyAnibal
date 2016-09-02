@@ -15,7 +15,7 @@ public class LojaFacade {
 		this.controller = new LojaController();
 	}
 
-	public void criaUsuario(String nome, String login) throws Exception,StringInvalidaException {
+	public void criaUsuario(String nome, String login,String tipo) throws Exception,StringInvalidaException {
 		try{
 			controller.criaUsuario(nome, login);
 		}catch(StringInvalidaException ex){
@@ -25,6 +25,9 @@ public class LojaFacade {
 			throw new Exception(ex.getMessage());
 		}
 		controller.criaUsuario(nome, login);
+	}
+	public double confereCredito(String login) throws Exception{
+		return controller.confereCredito(login);
 	}
 
 	public void vendeJogo(String jogoNome, double preco, String jogabilidades, String estiloJogo, String loginUser) throws ValorInvalidoException, StringInvalidaException, PrecoInvalidoException, BuscaInvalidaException, Exception {
@@ -80,7 +83,7 @@ public class LojaFacade {
 		}
 	}
 
-	public int getX2P(String login) throws Exception, BuscaInvalidaException{
+	public int getX2p(String login) throws Exception, BuscaInvalidaException{
 		try{
 			return controller.getX2p(login);
 		}catch(BuscaInvalidaException ex){
@@ -113,7 +116,7 @@ public class LojaFacade {
 	}
 	
 	public static void main(String[] args) {
-		args = new String[] { "loja.LojaController", "acceptance_test/us1.txt", "acceptance_test/us2.txt",
+		args = new String[] { "loja.LojaFacade", "acceptance_test/us1.txt", "acceptance_test/us2.txt",
 				"acceptance_test/us3.txt" };
 		EasyAccept.main(args);
 
