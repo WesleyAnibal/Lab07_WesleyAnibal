@@ -55,4 +55,3 @@ expect 6365 getX2p login="despoina.solaris"
 expect 1820 getX2p login="alpanu.destroctu"
 expect 5430	getX2p login="typhon.moira"
 expect 1182 getX2p login="achlae.sotare"
-

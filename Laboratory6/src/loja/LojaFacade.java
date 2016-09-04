@@ -18,8 +18,7 @@ public class LojaFacade {
 	public void criaUsuario(String nome, String login,String tipo) throws Exception,StringInvalidaException {
 		try{
 			controller.criaUsuario(nome, login);
-		}catch(StringInvalidaException ex){
-			System.out.println(ex.getMessage());
+		}catch(StringInvalidaException ex){			System.out.println(ex.getMessage());
 			throw new StringInvalidaException(ex.getMessage());
 		}catch(Exception ex){
 			throw new Exception(ex.getMessage());
@@ -114,11 +113,14 @@ public class LojaFacade {
 			throw new Exception(ex.getMessage());
 		}
 	}
+	public String informacaoUsuarios(){
+		return controller.informacaoUsuarios();
+	}
 	
 	public static void main(String[] args) {
 		args = new String[] { "loja.LojaFacade", "acceptance_test/us1.txt", "acceptance_test/us2.txt",
 				"acceptance_test/us3.txt" };
+		System.out.println();
 		EasyAccept.main(args);
-
 	}
 }

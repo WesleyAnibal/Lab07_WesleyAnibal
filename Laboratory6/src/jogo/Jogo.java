@@ -103,11 +103,9 @@ public abstract class Jogo {
 
 	@Override
 	public String toString() {
-		String resultado = "==> Jogou " + getVezesJogadas() + " vez(es)"
-				+ FIM_DE_LINHA;
-		resultado += "==> Zerou " + getvezesConcluidas() + " vez(es)"
-				+ FIM_DE_LINHA;
-		resultado += "==> Maior Score: " + getMaiorScore() + FIM_DE_LINHA;
+		String resultado = String.format("==> Jogou %d vez(es)\n", getVezesJogadas());
+		resultado += String.format("==> Zerou %d vez(es)\n", getvezesConcluidas());
+		resultado += String.format("==> Maior Score: %d \n", getMaiorScore());
 		return resultado;
 	}
 

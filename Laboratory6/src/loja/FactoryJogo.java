@@ -31,7 +31,7 @@ public class FactoryJogo {
 			throw new StringInvalidaException("Estilo de jogo inexistente.");
 		}
 	}
-	public Set<Jogabilidade> createJogabilidades(String names1) {
+	private Set<Jogabilidade> createJogabilidades(String names1) {
 		Set<Jogabilidade> jogabilidades = new HashSet<Jogabilidade>();
 
 		String[] listofNames = names1.split(" ");

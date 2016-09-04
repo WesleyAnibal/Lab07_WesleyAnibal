@@ -63,11 +63,16 @@ public class Usuario {
 	public void upgrade() throws TrocaInvalidoException {
 	if (xp2 < 1000) {
 		throw new TrocaInvalidoException("Impossivel realizar upgrade, quantidade de x2p insuficiente!");
+	}if(statusDoUsuario instanceof Veterano){
+		throw new TrocaInvalidoException("Impossivel realizar upgrade, usuario ja e veterano!");
 	}
 		this.statusDoUsuario = new Veterano();
 	}
 
-	public void downgrade() {
+	public void downgrade() throws TrocaInvalidoException {
+		if (statusDoUsuario instanceof Noob) {
+			throw new TrocaInvalidoException("downgrade impossivel de ser realizado, usuario ja eh Noob!");
+		}
 		this.statusDoUsuario = new Noob();
 	}
 
@@ -77,10 +82,6 @@ public class Usuario {
 
 	public int getXp2() {
 		return this.xp2;
-	}
-
-	public void cadastraJogo(Jogo jogo) {
-		this.meusJogos.add(jogo);
 	}
 
 	public String getNome() {
@@ -128,7 +129,7 @@ public class Usuario {
 		xp2 -= statusDoUsuario.punir(jogo);
 	}
 
-	public Jogo buscaJogo(String nomeJogo) throws BuscaInvalidaException {
+	private Jogo buscaJogo(String nomeJogo) throws BuscaInvalidaException {
 		for (Jogo jogo : meusJogos) {
 			if (jogo.getNome().equalsIgnoreCase(nomeJogo)) {
 				return jogo;
@@ -167,7 +168,7 @@ public class Usuario {
 	}
 	public String toString(){
 		String myString = statusDoUsuario.toString()+getLogin()+"\n";
-		myString+= getNome()+ " - "+ xp2+" x2p";
+		myString+= String.format("%s - %d x2p\n",getNome(),getXp2());
 		myString += "Lista de Jogos:\n";
 		for(Jogo jogo : meusJogos){
 			myString+= "+ "+ jogo.toString()+"\n";

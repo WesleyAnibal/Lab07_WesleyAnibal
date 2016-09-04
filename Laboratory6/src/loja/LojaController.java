@@ -25,9 +25,6 @@ import usuario.Veterano;
 public class LojaController {
 	private List<Usuario> meusUsuarios;
 	private FactoryJogo criaJogo;
-	private HashMap<String, Jogabilidade> mapJogabildades;
-
-
 	public LojaController() {
 		this.meusUsuarios = new ArrayList<Usuario>();
 		this.criaJogo = new FactoryJogo();
@@ -63,27 +60,21 @@ public class LojaController {
 
 	public void upgrade(String login) throws BuscaInvalidaException, TrocaInvalidoException  {
 		Usuario antigo = buscaUsuario(login);
-		if (antigo.getStatusDoUsuario() instanceof Veterano) {
-			throw new TrocaInvalidoException("Upgrade impossivel de ser realizado, usuario ja eh veterano");
-		}
 		antigo.upgrade();
 	}
 	public void downgrade(String login) throws BuscaInvalidaException, TrocaInvalidoException{
 		Usuario antigo = buscaUsuario(login);
-		if (antigo.getStatusDoUsuario() instanceof Noob) {
-			throw new TrocaInvalidoException("downgrade impossivel de ser realizado, usuario ja eh Noob");
-		}
 		antigo.downgrade();
 	}
 
-	public double confereCredito(String login) throws Exception {
+	public double confereCredito(String login) throws BuscaInvalidaException {
 		Usuario procurado = buscaUsuario(login);
 		return procurado.getCredito();
 	}
 
 	public String informacaoUsuarios() {
 		final String FIM_DE_LINHA = System.lineSeparator();
-		int totalPreco = 0;
+		float totalPreco = 0;
 		String myString = "=== Central P2-CG ===" + FIM_DE_LINHA + FIM_DE_LINHA;
 		for (int i = 0; i < meusUsuarios.size(); i++) {
 			myString += meusUsuarios.get(i).toString() + FIM_DE_LINHA;
