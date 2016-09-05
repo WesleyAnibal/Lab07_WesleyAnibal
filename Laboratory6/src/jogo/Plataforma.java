@@ -9,6 +9,16 @@ import excecoes.ValorInvalidoException;
 public class Plataforma extends Jogo {
 	public final static int MAXIMUM_SCORE = 100000;
 	public final static int TAXA_XP2 = 20;
+	
+	/**
+	 * Subclasse de Jogo, para definir o tipo Plataforma.
+	 * 
+	 * @author Wesley Anibal.
+	 * @param String
+	 *            nome
+	 * @param double preco
+	 * @throws Exception
+	 */
 	public Plataforma(String nome, double preco) throws StringInvalidaException, PrecoInvalidoException {
 		super(nome, preco);
 	}
@@ -16,7 +26,13 @@ public class Plataforma extends Jogo {
 	public Plataforma(String nome, double preco, Set<Jogabilidade> jogabilidades) throws StringInvalidaException, PrecoInvalidoException {
 		super(nome, preco, jogabilidades);
 	}
-
+	/**
+	 * metodo sobrescrito de registra jogada,para o calculo do X2p,no qual é
+	 * levada em conta o numero de conclusões.
+	 * 
+	 * @param int score
+	 * @param boolean venceu
+	 */
 	@Override
 	public int registraJogada(int score, boolean venceu) throws ValorInvalidoException {
 		setVezesJogadas(getVezesJogadas() + 1);

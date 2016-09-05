@@ -1,26 +1,13 @@
 package loja;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import easyaccept.EasyAccept;
 import excecoes.BuscaInvalidaException;
 import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;
 import excecoes.TrocaInvalidoException;
 import excecoes.ValorInvalidoException;
-import jogo.Jogabilidade;
-import jogo.Jogo;
-import jogo.Luta;
-import jogo.Plataforma;
-import jogo.Rpg;
-import usuario.Noob;
 import usuario.Usuario;
-import usuario.Veterano;
 
 public class LojaController {
 	private List<Usuario> meusUsuarios;
@@ -31,7 +18,7 @@ public class LojaController {
 	}
 
 	public void vendeJogo(String jogoNome, double preco, String jogabilidades, String estiloJogo, String loginUser) throws StringInvalidaException,PrecoInvalidoException,ValorInvalidoException, BuscaInvalidaException {
-			Usuario buscado = this.buscaUsuario(loginUser);
+			Usuario buscado  = this.buscaUsuario(loginUser);
 			buscado.compraJogo(criaJogo.criaJogo(jogoNome, preco, jogabilidades, estiloJogo));
 	}
 
@@ -90,10 +77,12 @@ totalPreco);
 		Usuario buscado = this.buscaUsuario(login);
 		return buscado.getXp2();
 	}
+	//chamada polimorfica.
 	public void punir(String login, String nome, int score, boolean zerou) throws BuscaInvalidaException, ValorInvalidoException {
 		Usuario usuario = buscaUsuario(login);
 		usuario.punir(nome, score, zerou);
 	}
+	//chamada polimorfica.
 	public void recompensar(String login, String nome, int score, boolean zerou) throws ValorInvalidoException, BuscaInvalidaException {
 		Usuario usuario = buscaUsuario(login);
 		usuario.recompensar(nome, score, zerou);

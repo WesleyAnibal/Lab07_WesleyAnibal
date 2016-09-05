@@ -37,7 +37,6 @@ public class TestLojaController {
 		assertEquals(1030, loja.getX2p("stratocaster.guitar"));
 		loja.punir("stratocaster.guitar", "please sorry", 1010, false);
 		assertEquals(1010,loja.getX2p("stratocaster.guitar"));
-		System.out.println(loja.informacaoUsuarios());
 	}
 	@Test
 	public void upgradeAndDowngrade() throws ValorInvalidoException, StringInvalidaException, PrecoInvalidoException, BuscaInvalidaException, TrocaInvalidoException{
@@ -49,9 +48,6 @@ public class TestLojaController {
 		assertTrue(loja.buscaUsuario("stratocaster.guitar").getStatusDoUsuario() instanceof Veterano);
 		loja.downgrade("stratocaster.guitar");
 		assertTrue(loja.buscaUsuario("stratocaster.guitar").getStatusDoUsuario() instanceof Noob);
-	}
-	@Test
-	public void testToString(){
 	}
 }
 	

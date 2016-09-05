@@ -1,11 +1,6 @@
 package usuario;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
-import excecoes.StringInvalidaException;
 import excecoes.ValorInvalidoException;
 import jogo.Jogabilidade;
 import jogo.Jogo;
@@ -15,20 +10,13 @@ public class Noob implements TipoDeUsuarioIF {
 
 	@Override
 	public double compraJogo(Jogo jogo) throws ValorInvalidoException {
-		
 		double desconto = jogo.getPreco() - (jogo.getPreco() * 0.10);
 		return desconto;
 	}
-	public int getX2p(Jogo jogo){
+
+	public int getX2p(Jogo jogo) {
 		return (int) (jogo.getPreco() * 10);
 	}
-
-	
-	 public String toString() { 
-		String myString = "Jogador Noob: " ;
-		return myString;
-	  }
-
 
 	public int recompensar(Jogo jogo) {
 		int totalRecompensa = 0;
@@ -56,6 +44,10 @@ public class Noob implements TipoDeUsuarioIF {
 		}
 		return totalRecompensa;
 	}
-	
+
+	public String toString() {
+		String myString = "Jogador Noob: ";
+		return myString;
+	}
 
 }

@@ -1,4 +1,4 @@
-package usuario;
+ package usuario;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -50,7 +50,7 @@ public class Usuario {
 	}
 
 
-
+	//Chamada polimorfica.
 	public void compraJogo(Jogo jogo) throws ValorInvalidoException {
 		if(this.credito < jogo.getPreco()){
 			throw new ValorInvalidoException("Dinheiro insuficiente.");
@@ -116,13 +116,13 @@ public class Usuario {
 	public double getCredito() {
 		return this.credito;
 	}
-
+	//chamada polimorfica.
 	public void recompensar(String nomeJogo, int scoreObtido, boolean zerou) throws BuscaInvalidaException, ValorInvalidoException {
 		Jogo jogo = buscaJogo(nomeJogo);
 		xp2 += statusDoUsuario.recompensar(jogo);
 		xp2+= jogo.registraJogada(scoreObtido, zerou);
 	}
-
+	//chamada polimorfica.
 	public void punir(String nomeJogo, int scoreObtido, boolean zerou) throws BuscaInvalidaException, ValorInvalidoException {
 		Jogo jogo = buscaJogo(nomeJogo);
 		xp2+= jogo.registraJogada(scoreObtido, zerou);
@@ -166,6 +166,7 @@ public class Usuario {
 			
 		}
 	}
+	//chamada polimorfica.
 	public String toString(){
 		String myString = statusDoUsuario.toString()+getLogin()+"\n";
 		myString+= String.format("%s - %d x2p\n",getNome(),getXp2());

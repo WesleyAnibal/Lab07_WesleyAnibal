@@ -17,7 +17,19 @@ public abstract class Jogo {
 	private int vezesConcluidas;
 	private int maiorScore;
 	private Set<Jogabilidade> jogabilidades;
-
+	/**
+	 * @author Wesley Anibal. Classe responsável por moldar os jogos.
+	 * 
+	 * 
+	 * @throws Exception
+	 *             Caso o nome do jogo seja nulo ou vazio, ou o valor for abaixo
+	 *             de 0, o jogo nao sera criado e sera lancado Exception.
+	 *Esse construtor inicia com o set vazio.
+	 * @param String
+	 *            nome
+	 * @param double preco
+	 * 
+	 */
 	public Jogo(String nome, double preco) throws StringInvalidaException,
 			PrecoInvalidoException {
 
@@ -35,10 +47,15 @@ public abstract class Jogo {
 		this.maiorScore = 0;
 		this.jogabilidades = new HashSet<Jogabilidade>();
 	}
-
+	/**
+	 * @param String nome
+	 * @param double preco
+	 * @param Set jogabilidades
+	 * 
+	 * Sobrecarga para receber atributo o set e não iniciar vazio.
+	 */
 	public Jogo(String nome, double preco, Set<Jogabilidade> jogabilidades)
 			throws StringInvalidaException, PrecoInvalidoException {
-
 		if (nome == null || nome.trim().isEmpty()) {
 			throw new StringInvalidaException(
 					"Nome nao pode ser nulo ou vazio.");
@@ -54,7 +71,12 @@ public abstract class Jogo {
 		this.maiorScore = 0;
 		this.jogabilidades = jogabilidades;
 	}
-
+	/**
+	 * Metodo abstrato para o registro de jogada.
+	 * 
+	 * @param score int
+	 * @param venceu boolean
+	 */
 	public abstract int registraJogada(int score, boolean venceu)throws ValorInvalidoException;
 
 	public double getPreco() {
