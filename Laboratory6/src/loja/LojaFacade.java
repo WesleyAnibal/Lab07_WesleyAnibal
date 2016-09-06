@@ -1,7 +1,6 @@
 package loja;
 
 import easyaccept.EasyAccept;
-import easyaccept.EasyAcceptException;
 import excecoes.BuscaInvalidaException;
 import excecoes.PrecoInvalidoException;
 import excecoes.StringInvalidaException;

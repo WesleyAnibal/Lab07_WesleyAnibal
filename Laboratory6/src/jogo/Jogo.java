@@ -1,6 +1,6 @@
 package jogo;
 
-import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +9,7 @@ import excecoes.StringInvalidaException;
 import excecoes.ValorInvalidoException;
 
 public abstract class Jogo {
-	private HashMap<String, Jogabilidade> mapJogabildades;
+	
 	public static final String FIM_DE_LINHA = System.lineSeparator();
 	private String nome;
 	private double preco;

@@ -1,11 +1,5 @@
 package usuario;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import excecoes.StringInvalidaException;
 import excecoes.ValorInvalidoException;
 import jogo.Jogabilidade;
 import jogo.Jogo;
